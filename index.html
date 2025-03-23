@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cyber Store | Undetected Crypter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet" />
+  <style>
+    /* Global Styles */
+    body {
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: #000;
+      color: #00ffcc;
+      overflow-x: hidden;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    /* Stats Counter Section */
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      padding: 20px;
+      background: #111;
+      border-bottom: 2px solid #00ffcc;
+    }
+    .stat {
+      text-align: center;
+      font-size: 24px;
+    }
+    .stat .number {
+      font-size: 36px;
+      font-weight: bold;
+      color: #ff00ff;
+    }
+    /* Navigation */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.9);
+      box-shadow: 0 0 15px #00ffcc;
+    }
+    .nav a {
+      padding: 10px 20px;
+      font-size: 18px;
+      transition: 0.3s;
+    }
+    .nav a:hover {
+      color: #ff00ff;
+      text-shadow: 0 0 10px #ff00ff;
+    }
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 100px 20px;
+      background: url('https://cdn.dribbble.com/userupload/21831238/file/original-4b9b9178c11adc510c58785d1c19da37.gif') no-repeat center center/cover;
+    }
+    .hero h1 {
+      font-size: 50px;
+      text-shadow: 0 0 20px #00ffcc;
+    }
+    /* Products Grid */
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 50px;
+    }
+    .product {
+      background: #111;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 255, 204, 0.5);
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    .product:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 25px #ff00ff;
+    }
+    .product img {
+      width: 100%;
+      border-radius: 10px;
+    }
+    .buy-button {
+      background: linear-gradient(90deg, #ff00ff, #00ffcc);
+      color: black;
+      border: none;
+      padding: 12px 15px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 20px;
+      text-transform: uppercase;
+      font-weight: bold;
+      margin-top: 10px;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+    .buy-button:hover {
+      background: linear-gradient(90deg, #00ffcc, #ff00ff);
+      box-shadow: 0 0 20px #00ffcc;
+    }
+    /* Additional Features List in Products */
+    .product ul {
+      text-align: left;
+      padding-left: 20px;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+    .product ul li {
+      list-style-type: none;
+      margin-bottom: 5px;
+    }
+    /* Reviews Section */
+    .reviews {
+      padding: 50px;
+      background: #111;
+      border-top: 2px solid #00ffcc;
+    }
+    .reviews h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .review {
+      background: #222;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px #00ffcc;
+      position: relative;
+      font-size: 14px;
+      line-height: 1.4;
+      opacity: 0;
+      animation: fadeIn 1s forwards;
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+    .review::before {
+      content: ' Verified Purchase';
+      position: absolute;
+      top: -10px;
+      left: 20px;
+      background: #00ffcc;
+      color: #000;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 12px;
+    }
+    .review strong {
+      display: block;
+      margin-top: 10px;
+      font-size: 15px;
+    }
+    /* See More Button */
+    .see-more-btn {
+      display: block;
+      margin: 30px auto 0;
+      background: transparent;
+      border: 1px solid #00ffcc;
+      color: #00ffcc;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+    .see-more-btn:hover {
+      background: #00ffcc;
+      color: #000;
+    }
+    /* Video Container */
+    .video-container {
+      text-align: center;
+      padding: 50px;
+    }
+    iframe {
+      width: 80%;
+      height: 400px;
+      border: 2px solid #00ffcc;
+      border-radius: 10px;
+      box-shadow: 0 0 20px #00ffcc;
+    }
+    /* Payment Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.95);
+    }
+    .modal-content {
+      background-color: #111;
+      margin: 10% auto;
+      padding: 20px;
+      border: 1px solid #00ffcc;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 10px;
+      position: relative;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+    .modal-content:hover {
+      transform: scale(1.02);
+    }
+    .close {
+      color: #00ffcc;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .coin-option {
+      display: inline-block;
+      margin: 10px;
+      cursor: pointer;
+      padding: 10px;
+      border: 1px solid #00ffcc;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+    .coin-option:hover,
+    .coin-option.active {
+      background: #00ffcc;
+      color: #000;
+    }
+    .payment-info {
+      margin-top: 20px;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .timer {
+      margin-top: 10px;
+      font-size: 16px;
+      color: #ff00ff;
+    }
+    .contact-owner {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #ff00ff;
+    }
+    .contact-btn {
+      background: #ff00ff;
+      color: #000;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 10px;
+      transition: 0.3s;
+    }
+    .contact-btn:hover {
+      background: #00ffcc;
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated Stats Section -->
+  <div class="stats">
+    <div class="stat">
+      <div class="number" id="clientsCount">0</div>
+      Total Clients
+    </div>
+    <div class="stat">
+      <div class="number" id="reviewsCount">0</div>
+      Total Reviews
+    </div>
+  </div>
+  <!-- Navigation -->
+  <nav class="nav">
+    <a href="#">Home</a>
+    <a href="#products">Products</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <!-- Hero Section -->
+  <div class="hero">
+    <h1>Welcome to Soulk Crypter  Store</h1>
+    <p>The most advanced undetected crypters on the market</p>
+  </div>
+  <!-- Products Section -->
+  <div id="products" class="products">
+    <!-- Crypter V1 -->
+    <div class="product" data-product="Crypter V1" data-usd="99">
+      <img src="https://i.ibb.co/84QH8Skx/x-FBatbzdk-Cy100w-Co2amztiho.jpg" alt="Crypter Product 1" />
+      <h2>Crypter V1</h2>
+      <p>
+        Windows Defender Bypass<br />
+        Advanced Encryption<br />
+        No Dependencies<br />
+        Fast Processing<br />
+        Extra Stealth Mode
+      </p>
+      <ul>
+        <li>Realtime bypass</li>
+        <li>Auto update</li>
+        <li>Extended persistence</li>
+      </ul>
+      <button class="buy-button">Buy Now - $53</button>
+    </div>
+    <!-- Crypter V2 -->
+    <div class="product" data-product="Crypter V2" data-usd="149">
+      <img src="https://www.wizcase.com/wp-content/uploads/2020/12/WINDOWS-DEFENDER-1.png" alt="Crypter Product 2" />
+      <h2>Crypter V2</h2>
+      <p>
+        Windows Defender Bypass<br />
+        Real time AV Bypass<br />
+        Persistence Mode<br />
+        Auto update<br />
+        Stealth Network<br />
+        Advanced Infection
+      </p>
+      <ul>
+        <li>Realtime bypass</li>
+        <li>Network integration</li>
+        <li>Infection support</li>
+      </ul>
+      <button class="buy-button">Buy Now - $149</button>
+    </div>
+    <!-- Stealth Crypter X -->
+    <div class="product" data-product="Stealth Crypter X" data-usd="199">
+      <img src="https://i.ibb.co/5g2J9B3V/e-OOkco-D6c6-My-Lrfk-Mg-KYJJCAq-I.jpg" alt="Crypter Product 3" />
+      <h2>Stealth Crypter X</h2>
+      <p>
+        Windows Defender Bypass<br />
+        DLL Injection<br />
+        Full Undetectable Mode<br />
+        Multi Layer Encryption<br />
+        Rapid Evasion<br />
+        Persistent Infiltration
+      </p>
+      <ul>
+        <li>Realtime bypass</li>
+        <li>Advanced evasion</li>
+        <li>Extended infiltration</li>
+      </ul>
+      <button class="buy-button">Buy Now - $199</button>
+    </div>
+  </div>
+  <!-- Reviews Section -->
+  <div id="reviews" class="reviews">
+    <h2>Trusted Reviews</h2>
+    <div class="reviews-grid" id="reviewsGrid">
+      <!-- Initial three reviews -->
+      <div class="review" style="color: #ff00ff;">
+        <p>Excellent tool works as promised</p>
+        <strong>Order #AX937</strong>
+      </div>
+      <div class="review" style="color: #00ffcc;">
+        <p>Works great i love it</p>
+        <strong>Order #BZ482</strong>
+      </div>
+      <div class="review" style="color: #ffff00;">
+        <p>Very effective and reliable</p>
+        <strong>Order #CP156</strong>
+      </div>
+    </div>
+    <button class="see-more-btn" id="seeMoreBtn">See More Reviews</button>
+  </div>
+  <!-- Video Section -->
+  <div class="video-container">
+    <h2>How Our Crypters Work</h2>
+    <iframe src="https://www.youtube.com/embed/U6iu7yPQTyc" allowfullscreen></iframe>
+  </div>
+  <!-- Payment Modal -->
+  <div id="paymentModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="modalClose">&times;</span>
+      <h2>Payment Options</h2>
+      <p id="productTitle"></p>
+      <div id="coinSelection">
+        <!-- Replace src attributes with your coin logo images -->
+        <div class="coin-option" data-coin="BTC"><img src="https://media.tenor.com/aDozr1-R2n0AAAAi/bitcoin.gif" alt="BTC" width="30" style="vertical-align:middle;"> BTC</div>
+        <div class="coin-option" data-coin="LTC"><img src="https://media0.giphy.com/media/xULW8imgOopU62dFkc/200w.gif?cid=6c09b952jovsh54onp7di49p8lt78lotvck68qk51lhv1g6i&ep=v1_gifs_search&rid=200w.gif&ct=g" alt="LTC" width="30" style="vertical-align:middle;"> LTC</div>
+        <div class="coin-option" data-coin="XMR"><img src="https://media.tenor.com/IPTY8SuY5CIAAAAM/xmr-monero.gif" alt="XMR" width="30" style="vertical-align:middle;"> XMR</div>
+        <div class="coin-option" data-coin="USDT"><img src="https://media1.tenor.com/m/95fjqy0Sre0AAAAd/usdt.gif" alt="USDT" width="30" style="vertical-align:middle;"> USDT</div>
+        <div class="coin-option" data-coin="TRON"><img src="https://i.seadn.io/s/raw/files/1c1b36a79687038012fb4a4d6ceb568f.gif?auto=format&dpr=1&w=1000" alt="TRON" width="30" style="vertical-align:middle;"> TRON</div>
+      </div>
+      <div class="payment-info" id="paymentInfo"></div>
+      <div class="timer" id="paymentTimer"></div>
+      <div class="contact-owner">
+        If you don't have these payment methods, contact the owner
+      </div>
+      <button class="contact-btn" onclick="window.location.href='https://t.me/Jjjjjuujjjjj'">
+        Contact Owner on Telegram
+      </button>
+    </div>
+  </div>
+  
+  <script>
+    /* Animate Stats Counters */
+    function animateCounter(id, target) {
+      const element = document.getElementById(id);
+      let count = 0;
+      const increment = target / 100;
+      const interval = setInterval(() => {
+        count += increment;
+        if (count >= target) {
+          count = target;
+          clearInterval(interval);
+        }
+        element.textContent = Math.floor(count);
+      }, 20);
+    }
+    // Animate total clients and reviews on page load
+    animateCounter("clientsCount", 234);
+    animateCounter("reviewsCount", 143);
+
+    /* See More Reviews Functionality */
+    document.getElementById('seeMoreBtn').addEventListener('click', function () {
+      const reviewsGrid = document.getElementById('reviewsGrid');
+      // Array of 10 unique review texts
+      const reviewTexts = [
+        "Excellent tool for bypass",
+        "Really fast and effective",
+        "Super secure and reliable",
+        "Incredible performance overall",
+        "Tool exceeded my expectations",
+        "Undetectable and smooth",
+        "Top quality product",
+        "A must have for hackers",
+        "Works as advertised",
+        "Undetected",
+        "Top quality product, no detections at all.",
+"A must-have for anyone serious about security.",
+"Works as advertised, no BS.",
+"Undetected, smooth, and reliablelove it!",
+"This thing is a beast! Total stealth mode.",
+"My files are invisible. Perfect.",
+"Finally, a crypter that actually stays UD.",
+"No flags, no problems. 10/10.",
+"Tried many, this one actually works.",
+"Stealth mode activatedflawless execution.",
+"No antivirus can touch this. Insane protection.",
+"Super easy to use, but powerful AF.",
+"One of the best out there, hands down.",
+"Does exactly what I need it toundetected every time.",
+"Saves so much hassle. Worth every penny.",
+"Best in the game right now, no cap.",
+"Tested against multiple AVszero detections.",
+"The real deal. Nothing gets flagged.",
+"Undetectable AF, no complaints.",
+"Pure stealth, just works.",
+"Been using it for weeks, still UD.",
+"Perfect for what I neededseamless execution.",
+"Encryption level is top-tier.",
+"Clean execution, no lags, no flags.",
+"Way ahead of anything else Ive tried.",
+"If you know, you know. This thing is gold.",
+"Legit undetectable. Never been disappointed.",
+"Flawless encryption, zero issues.",
+"Built for pros but easy for beginners.",
+"Seriously good. Works every single time.",
+"Antivirus doesnt stand a chance.",
+"Totally invisible. Love this tool.",
+"No detections even after multiple scans.",
+"Reliable, fast, and 100% UD.",
+"AVs dont even blink at this. Amazing.",
+"This crypter is insane. Worth it.",
+"Tested extensivelyremains fully undetected.",
+"One of the few that actually delivers.",
+"Slick, simple, and stealthy.",
+"Nothing gets picked up. This is next level.",
+"Been in the game a whilethis is top-tier.",
+"My go-to crypter. Never lets me down.",
+"Best investment Ive made. No issues at all.",
+"Super clean, super stealthy.",
+"Flies under the radar like a ghost.",
+"No funny businessjust solid results.",
+"Perfectly designed for staying hidden.",
+"Zero flags, total stealth mode.",
+"Runs smooth, no lag, nothing detected.",
+"No detection, no stress. Love it.",
+"Hides my EXE files like a pro.",
+"Couldnt ask for a better crypter.",
+"Never had issues. Works every time.",
+"Worth every centpure quality.",
+"A beast in the crypter world.",
+"Legit no detections. Super stealthy.",
+"Security at its finest.",
+"Fast, simple, effective.",
+"Never seen anything like it. Unreal.",
+"10/10, fully undetectable.",
+"No complaints, only results.",
+"Effortless protection for EXE files.",
+"If you need stealth, get this.",
+"AV scanners dont stand a chance.",
+"Invisible, efficient, perfect.",
+"The best tool Ive ever used.",
+"No detection across multiple scans.",
+"Top-tier encryption, worth it.",
+"Pure magic. Best crypter hands down.",
+"Ghost mode activated. Love it!",
+"Legit works, no nonsense.",
+"Fast, effective, and totally hidden.",
+"Never flagged, always smooth.",
+"Been using it for months, still UD.",
+"Tried it, tested it, fully satisfied.",
+"The best encryption on the market.",
+"No lags, no flags, just stealth.",
+"AVs dont even know its there.",
+"Best undetected crypter out there.",
+"Protects EXEs like nothing else.",
+"Serious security, serious results.",
+"Makes files completely invisible.",
+"If you need security, get this now.",
+"Takes stealth to a whole new level.",
+"100% undetectable, no exceptions.",
+"Been testing for weeksflawless.",
+"Undetected and running smooth.",
+"Fast, reliable, worth every penny.",
+"A hackers best friend.",
+"Works like a charm, every time.",
+"Super clean, easy to use.",
+"No stress, no detections, just works.",
+"Top-notch security solution.",
+"Perfect blend of stealth and speed.",
+"Encrypted so well, nothing picks it up.",
+"No detection on any system I tried.",
+"Real deal, no fake promises.",
+"Undetected even after updates.",
+"Strong, efficient, secure.",
+"My files are invisiblelove it!",
+"The stealth king of crypters.",
+"Worth every penny, seriously good.",
+"Smooth execution, zero issues.",
+"Ive tried many, this ones the best.",
+"Undetectable AF. 10/10.",
+"Finally found a crypter that works.",
+"Cant believe how good this is.",
+"One word: flawless.",
+"Ghost mode engaged. Insane stealth.",
+"The encryption is next-level.",
+"Files stay protected, no hassle.",
+"The best tool for staying under the radar.",
+"Security and stealth in one package.",
+"Hidden like a ninja.",
+"No detection, just pure performance.",
+"Does what it saysno BS.",
+"100% reliable encryption.",
+"Stealthy, simple, powerful.",
+"Next-gen protection for EXE files.",
+"10/10 would recommend.",
+"Super clean, stays hidden.",
+"Best in the game right now.",
+"No detections, no problems.",
+"Files stay safe, execution is smooth.",
+"Tried it on multiple systemszero issues.",
+"No headaches, no stress, just stealth.",
+"My EXEs are totally invisible.",
+"Cloaks files like a pro.",
+"Zero flags, total protection.",
+"Absolutely amazing.",
+"AVs dont even blink at it.",
+"Game-changing security tool.",
+"So simple, yet so powerful.",
+"Pure stealth, highly recommend.",
+"Invisibility for EXE files.",
+"This crypter is a hidden gem.",
+"Works exactly as expected.",
+"Reliable, powerful, undetectable.",
+"Never been detected, works every time.",
+"Hides my files flawlessly.",
+"Insane level of stealth.",
+"Top-tier encryption, zero detections.",
+"If you need undetectable execution, this is it."
+
+      ];
+      // Array of colors for variety
+      const colors = ["#ff00ff", "#00ffcc", "#ffff00", "#ff9900", "#00ffff"];
+      // Generate 140 extra unique reviews
+      for (let i = 4; i <= 143; i++) {
+        const reviewDiv = document.createElement('div');
+        reviewDiv.className = 'review';
+        const orderNumber = 'Order #' + Math.floor(100000 + Math.random() * 900000);
+        // Use the review text based on the index (ensuring uniqueness by appending index)
+        const text = reviewTexts[(i - 4) % reviewTexts.length] + ' - Review ' + i;
+        const color = colors[(i - 4) % colors.length];
+        reviewDiv.style.color = color;
+        reviewDiv.innerHTML = `<p>${text}</p><strong>${orderNumber}</strong>`;
+        reviewsGrid.appendChild(reviewDiv);
+      }
+      this.style.display = 'none';
+    });
+
+    /* Payment Modal Functionality */
+    const modal = document.getElementById('paymentModal');
+    const modalClose = document.getElementById('modalClose');
+    const productTitle = document.getElementById('productTitle');
+    const paymentInfo = document.getElementById('paymentInfo');
+    const paymentTimer = document.getElementById('paymentTimer');
+    let countdownInterval;
+
+    // Conversion values for each product (example values)
+    const conversionRates = {
+      "Crypter V1": { BTC: "53$ in  BTC", LTC: "53$ in LTC", XMR: "53$ in XMR", USDT: "53$ in USDT", TRON: "53$ in TRX" },
+      "Crypter V2": { BTC: "149$  in  BTC", LTC: "149$  in  LTC", XMR: "199$  in  XMR", USDT: "149$  in   USDT", TRON: "149$  in  TRX" },
+      "Stealth Crypter X": { BTC: "199$  in  BTC", LTC: "199$  in  LTC", XMR: "199$  in  XMR", USDT: "199$  in  USDT", TRON: "199$  in  TRX" }
+    };
+    // Wallet addresses (example values)
+    const walletAddresses = {
+      BTC: "bc1q0y0dz2eev8dqt3gsz59k2x354j6kwcsf0ev4vr",
+      LTC: "LL6jfdNvK3VZ6XgBAvDLsWTbGx2iUVny9D",
+      XMR: "43WqJnnbzbV5DMKHdPxSrGYGUN1KDiYxiZDq6fyfYE2pGkAnoperLm7XNBjVrbh7qMUrxEppwCdyxXkvffnJ9qzERK5ZCfg",
+      USDT: "TWVDSjcuLMTNKGCAFXeXvbXwhHJBYUgYMn",
+      TRON: "TWVDSjcuLMTNKGCAFXeXvbXwhHJBYUgYMn"
+    };
+
+    // Open modal when Buy Now is clicked
+    document.querySelectorAll('.buy-button').forEach(button => {
+      button.addEventListener('click', function (e) {
+        const productDiv = e.target.closest('.product');
+        const productName = productDiv.getAttribute('data-product');
+        productTitle.textContent = productName;
+        // Default coin selection: BTC
+        selectCoin('BTC', productName);
+        document.querySelectorAll('.coin-option').forEach(opt => opt.classList.remove('active'));
+        document.querySelector('.coin-option[data-coin="BTC"]').classList.add('active');
+        openModal();
+      });
+    });
+
+    // Coin selection functionality
+    document.querySelectorAll('.coin-option').forEach(option => {
+      option.addEventListener('click', function () {
+        document.querySelectorAll('.coin-option').forEach(opt => opt.classList.remove('active'));
+        this.classList.add('active');
+        const currentProduct = productTitle.textContent;
+        selectCoin(this.getAttribute('data-coin'), currentProduct);
+      });
+    });
+
+    function selectCoin(coin, productName) {
+      const conversion = conversionRates[productName][coin];
+      const wallet = walletAddresses[coin];
+      paymentInfo.innerHTML = `<p><strong>${coin} Payment</strong></p>
+        <p>Send <strong>${conversion}</strong></p>
+        <p>Wallet <strong>${wallet}</strong></p>
+        <p>You have 3 hours to complete the order</p>`;
+    }
+
+    function openModal() {
+      modal.style.display = 'block';
+      startTimer(3 * 60 * 60); // 3 hours in seconds
+    }
+
+    modalClose.addEventListener('click', function () {
+      modal.style.display = 'none';
+      clearInterval(countdownInterval);
+    });
+
+    window.addEventListener('click', function (event) {
+      if (event.target == modal) {
+        modal.style.display = 'none';
+        clearInterval(countdownInterval);
+      }
+    });
+
+    // Timer countdown
+    function startTimer(duration) {
+      let timer = duration;
+      updateTimerDisplay(timer);
+      countdownInterval = setInterval(function () {
+        timer--;
+        updateTimerDisplay(timer);
+        if (timer < 0) {
+          clearInterval(countdownInterval);
+          paymentTimer.textContent = "Order expired";
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay(seconds) {
+      const hrs = Math.floor(seconds / 3600);
+      const mins = Math.floor((seconds % 3600) / 60);
+      const secs = seconds % 60;
+      paymentTimer.textContent = `Time ${hrs}h ${mins}m ${secs}s`;
+    }
+  </script>
+</body>
+</html>
